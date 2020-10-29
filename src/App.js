@@ -1,22 +1,32 @@
-import { React, useState, useEffect} from 'react';
-import './App.css';
+import  React , { Component } from 'react';
+import styles from './App.module.css';
+import { Cards, Charts, CountryPicker } from './components';
+import { fetchData } from './api'
 
-const App = () => {
-  const [count, setcount] = useState(0);
 
-  const increamentCounter = () =>{
-    setcount(count + 1);
+export default class App extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      data:{ }
+    }
   }
-  
-  return (
-    <>
-      <div className="container">
-      <h1>This is amar - {count}</h1>
-      <button className="btn btn-sm btn-primary" onClick={increamentCounter}>Increament</button>
+
+  async componentDidMount(){
+     const response = await fetchData();
+     this.setState({data: response});
+     console.log(this.state.data);
+  }
+
+  render(){
+    return (
+      <div>
+        <h1 className={styles.heading}>THis is sample</h1>
+        <Cards />
+        <Charts />
+        <CountryPicker />
       </div>
-    </>
-  );
+    )
+  }
+
 }
-
-
-export default App;
